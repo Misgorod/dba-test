@@ -1,5 +1,8 @@
 FROM python:3
 WORKDIR /data
-COPY test.py requirements.txt /data/
+COPY requirements.txt /data/
 RUN pip install -r requirements.txt
-CMD python test.py
+COPY src /data/
+ENV HOST_IP=0.0.0.0
+ENV HOST_PORT=5000
+CMD gunicorn --bind ${HOST_IP}:${HOST_PORT} wsgi:app
